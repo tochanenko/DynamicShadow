@@ -10,9 +10,19 @@ onmousemove = function (e) {
 		let shadowDistanseX = e.clientX - centerX;
 		let shadowDistanseY = e.clientY - centerY;
 
-		let shadowX = Math.log(Math.abs(shadowDistanseX / 5.0) + 1) * Math.sign(shadowDistanseX);
-		let shadowY = Math.log(Math.abs(shadowDistanseY / 5.0) + 1) * Math.sign(shadowDistanseY);
+		let shadowDistance = Math.sqrt(Math.pow(shadowDistanseX, 2) + Math.pow(shadowDistanseY, 2))
+		let sinA = shadowDistanseX / shadowDistance;
+		let sinB = shadowDistanseY / shadowDistance;
 
-		shadows[i].style.textShadow = shadowX + "px " + shadowY + "px 3px gray";
+		let actualShadowDistance = Math.log(shadowDistance / 5.0 + 1);
+
+		let actualShadowDistanceX = actualShadowDistance * sinA * -1;
+		let actualShadowDistanceY = actualShadowDistance * sinB * -1;
+
+		let shadowBlur = actualShadowDistance * 2;
+		// let shadowOpacity = 0.8 - actualShadowDistance / 10;
+		let shadowOpacity = 0.6;
+
+		shadows[i].style.textShadow = actualShadowDistanceX + "px " + actualShadowDistanceY + "px " + shadowBlur + "px rgba(0,0,0," + shadowOpacity + ")";
 	}
 }
